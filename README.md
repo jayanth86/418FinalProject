@@ -1,5 +1,5 @@
 <p align="center">
-  Comparative study of Concurrent Hash Table implementations
+  <title>Comparative study of Concurrent Hash Table implementations<\title>
 </p>
 
 
