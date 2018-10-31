@@ -1,5 +1,3 @@
-<a href="418%20project%20proposal.pdf">View Proposal</a>
-
 ## Summary
 Our goal is to design a performant concurrent hash table using three different approaches, namely:- fine-grained locking, lock-free programming and transactional memory. Through this project we seek to understand the benefits and drawbacks of these approaches under various types of workloads. 
 
@@ -29,3 +27,6 @@ We will be using C++ to code this project as we wish to have control over the co
 | 22 Nov - 28 Nov  | Transactional memory, Testing  |
 | 29 Nov - 5 Dec  | Testing, incorporate expand capability  |
 | 13 Dec - 15 Dec  | Finalize report  |
+
+
+<a href="418%20project%20proposal.pdf">View Proposal Here</a>
