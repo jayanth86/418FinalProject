@@ -1,6 +1,6 @@
-<h align="center">
+<p align="center">
   Comparative study of Concurrent Hash Table implementations
-</h>
+</p>
 
 
 ## Summary
