@@ -2,7 +2,6 @@
 <p align="center">
   <h1>Comparative study of Concurrent Hash Table implementations</h1>
 </p>
-# 
 
 ## Summary
 Our goal is to design a performant concurrent hash table using three different approaches, namely:- fine-grained locking, lock-free programming and transactional memory. Through this project we seek to understand the benefits and drawbacks of these approaches under various types of workloads. 
