@@ -1,5 +1,5 @@
 
-<h1 align="center">Comparative study of Concurrent Hash Table implementations</h1>
+<h1 align="center">Comparative Study of Concurrent Hash Table Implementations</h1>
 
 
 ## Summary
@@ -25,9 +25,11 @@ We will be using C++ to code this project as we wish to have control over the co
 
 |      Week     |     Goal      |
 | ------------- | ------------- |
-| 1 Nov - 7 Nov  | Content Cell  |
-| 8 Nov - 14 Nov  | Content Cell  |
-| 15 Nov -  21 Nov  | Content Cell  |
-| 22 Nov - 28 Nov  | Content Cell  |
-| 29 Nov - 5 Dec  | Content Cell  |
-| 13 Dec - 15 Dec  | Content Cell  |
+| 1 Nov - 7 Nov  | Sequential, Literature Review  |
+| 8 Nov - 14 Nov  | Fine-grained locking, Lock-less  |
+| 15 Nov -  21 Nov  | Lock-less, Transactional Memory
+(For checkpoint on 19, 125% goal is to complete transactional memory, 100% goal is to finish lock-less) 
+  |
+| 22 Nov - 28 Nov  | Transactional memory, Testing  |
+| 29 Nov - 5 Dec  | Testing, incorporate expand capability  |
+| 13 Dec - 15 Dec  | Finalize report  |
