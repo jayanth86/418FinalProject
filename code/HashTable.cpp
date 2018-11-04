@@ -6,7 +6,7 @@ using namespace std;
 HashTable::HashTable(int b) 
 { 
     this->BUCKET = b; 
-    table = new list<int>[BUCKET]; 
+    this->table = new list<int>[BUCKET]; 
 } 
   
 void HashTable::insertItem(int key) 
