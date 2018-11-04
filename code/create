@@ -1,1 +1,1 @@
-g++ -std=c++0x HashTable.cpp HashTable.h main.cpp -o hash -Wall -Werror -O3
+g++ -std=c++0x List.cpp List.h HashTable.cpp HashTable.h main.cpp -o hash -Wall -Werror -O3

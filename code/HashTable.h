@@ -1,4 +1,4 @@
-#include <list>
+#include "List.h"
 using namespace std;
 
 class HashTable 
@@ -6,7 +6,7 @@ class HashTable
     int BUCKET;    // No. of buckets 
   
     // Pointer to an array containing buckets 
-    std::list<int> *table;
+    List *table;
 public: 
     HashTable(int V);  // Constructor 
     // inserts a key into hash table 
