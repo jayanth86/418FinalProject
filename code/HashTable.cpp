@@ -10,10 +10,17 @@ HashTable::HashTable(int b)
   
 void HashTable::insertItem(int key) 
 { 
-    int index = hashFunction(key); 
-    table[index].insertNode(key);  
+    int index = hashFunction(key);
+    if(table[index].findNode(key) == NULL)
+        table[index].insertNode(key);  
 } 
-  
+
+bool HashTable::findItem(int key)
+{
+    int index = hashFunction(key); 
+    return table[index].findNode(key) != NULL;
+}
+
 void HashTable::deleteItem(int key) 
 { 
     // get the hash index of key 

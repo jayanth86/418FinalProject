@@ -14,6 +14,9 @@ public:
     
     // deletes a key from hash table 
     void deleteItem(int key); 
+
+    // checks if key is in hash table
+    bool findItem(int key);
   
     // hash function to map values to key 
     int hashFunction(int x) { 
