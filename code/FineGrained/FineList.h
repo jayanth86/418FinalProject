@@ -1,5 +1,5 @@
 #include <iostream>
-#include <shared_timed_mutex>
+#include <mutex>
 using namespace std;
 
 class FineNode {
@@ -7,7 +7,6 @@ class FineNode {
 		int key;
 		FineNode *next;
 	public:
-		mutable shared_timed_mutex m;
 		FineNode(int key);
 		int getKey();
 		FineNode *getNext();
@@ -17,8 +16,8 @@ class FineNode {
 class FineList {
 	private:
 		FineNode *head;
-		mutable shared_timed_mutex m;
 	public:
+		mutable mutex m;
 		FineList();
 		~FineList();
 		void insertNode(int key);

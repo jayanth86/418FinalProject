@@ -1,1 +1,1 @@
-g++ -std=c++14 main.cpp FineGrained/FineHashTable.cpp FineGrained/FineHashTable.h FineGrained/FineList.cpp FineGrained/FineList.h Sequential/HashTable.cpp Sequential/HashTable.h Sequential/List.cpp Sequential/List.h -o hash -Wall -Werror -O3
+g++-8 -std=c++17 main.cpp FineGrained/FineHashTable.cpp FineGrained/FineList.cpp Sequential/HashTable.cpp Sequential/List.cpp -o hash -Wall -Werror -O3
