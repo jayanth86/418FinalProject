@@ -39,7 +39,9 @@ void FineHashTable::deleteItem(int key)
 void FineHashTable::displayHash() { 
     for (int i = 0; i < BUCKET; i++) { 
         cout << i; 
+        (table[i].m).lock();
         table[i].dispList();
+        (table[i].m).unlock();
         cout << endl; 
     } 
 }
