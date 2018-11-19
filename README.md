@@ -39,4 +39,5 @@ We will be using C++ to code this project as we wish to have control over the co
 | 11 Dec - 14 Dec  | Buffer in case something goes wrong  |
 
 <a href="418%20project%20proposal.pdf">View Proposal Here</a>
+
 <a href="Final%20Project%20Checkpoint.pdf">View Checkpoint Here</a>
