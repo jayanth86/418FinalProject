@@ -17,8 +17,9 @@ We believe that a comprehensive study of fine-grained locks, lock-free implement
 In our final presentation, we hope to share visual representations of the comparative performance of the various implementations we have planned on different workloads and some insights we gained in the process. We will particularly look to assess the impact on performance when the ratio of read/write operations on the hash table is varied and also when the level of concurrency is stepped up.
 
 ## Platform:
-We will be using C++ to code this project as we wish to have control over the code at a lower level and due to better familiarity with concurrent programming in C++. We plan to use the RMC machines to implement this project as recommended in the lecture. 
+We will be using C++ to code this project as we wish to have control over the code at a lower level and due to better familiarity with concurrent programming in C++. We plan to use the GHC machines to implement this project as recommended in the lecture. 
 
+Original Schedule:
 |      Week     |     Goal      |
 | ------------- | ------------- |
 | 1 Nov - 7 Nov  | Sequential, Literature Review  |
@@ -28,5 +29,17 @@ We will be using C++ to code this project as we wish to have control over the co
 | 29 Nov - 5 Dec  | Testing, incorporate expand capability  |
 | 13 Dec - 15 Dec  | Finalize report  |
 
+Updated Schedule:
+
+|      Week     |     Goal      |
+| ------------- | ------------- |
+| 19 Nov - 21 Nov  | Transactional memory - Jayanth, Siddharth  |
+| 22 Nov - 25 Nov  | Transactional memory - Jayanth Testing Suite - Siddharth  |
+| 26 Nov - 29 Nov  | If TM complete, incorporate memory reclamation (125%) and expand table functionality (150%), Testing - Jayanth, Siddharth |
+| 30 Nov - 3 Dec  | Performance testing - Jayanth, Siddharth  |
+| 3 Dec - 6 Dec  | Performance testing, Report - Jayanth, Siddharth |
+| 7 Dec - 10 Dec  | Report - Jayanth, Siddharth  |
+| 11 Dec - 14 Dec  | Buffer in case something goes wrong  |
 
 <a href="418%20project%20proposal.pdf">View Proposal Here</a>
+<a href="Final%20Project%20Checkpoint.pdf">View Checkpoint Here</a>
