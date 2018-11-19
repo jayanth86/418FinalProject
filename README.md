@@ -26,6 +26,7 @@ In our final presentation, we hope to share visual representations of the compar
 We will be using C++ to code this project as we wish to have control over the code at a lower level and due to better familiarity with concurrent programming in C++. We plan to use the GHC machines to implement this project as recommended in the lecture. 
 
 ## Original Schedule:
+
 |      Week     |     Goal      |
 | ------------- | ------------- |
 | 1 Nov - 7 Nov  | Sequential, Literature Review  |
