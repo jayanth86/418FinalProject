@@ -16,7 +16,7 @@ bool extractFlag(LockFreeNode *node) {
     return (unsigned long)node & 1;
 }
 
-LockFreeNode *extractNext(LockFreeNode *node) {
+static inline LockFreeNode *extractNext(LockFreeNode *node) {
     return (LockFreeNode *)((unsigned long)node & ~3);
 }
 
