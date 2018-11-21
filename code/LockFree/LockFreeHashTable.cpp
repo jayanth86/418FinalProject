@@ -4,7 +4,7 @@ using namespace std;
 
 LockFreeHashTable::LockFreeHashTable(int NUM_BUCKETS)
 { 
-    this->NUM_BUCKETS = NUM_BUCKETS; 
+    this->NUM_BUCKETS = NUM_BUCKETS;
     table = new LockFreeList[NUM_BUCKETS]; 
 }
 

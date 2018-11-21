@@ -26,6 +26,7 @@ class LockFreeNode {
 class LockFreeList {
 	public:
 		LockFreeNode *head;
+		LockFreeNode *tail;
 		LockFreeList();
 		~LockFreeList();
 		LockFreeNode *insertNode(int key, int value);

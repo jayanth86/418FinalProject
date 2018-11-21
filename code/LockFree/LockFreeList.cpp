@@ -1,5 +1,5 @@
 #include "LockFreeList.h"
-
+#include <limits.h>
 using namespace std;
 
 LockFreeNode::LockFreeNode(int key, int value) {
@@ -37,7 +37,10 @@ LockFreeNode *packSucc(LockFreeNode *node, bool mark, bool flag) {
 }
 
 LockFreeList::LockFreeList() {
-    this->head = NULL;
+    this->head = new LockFreeNode(INT_MIN, 0);
+    this->tail = new LockFreeNode(INT_MAX, 0);
+    head->succ = packSucc(this->tail, 0, 0);
+    tail->succ = packSucc(NULL, 0, 0);
 }
 
 LockFreeList::~LockFreeList() {
@@ -201,15 +204,17 @@ LockFreeNode *LockFreeList::insertNode(int key, int value) {
 
 void LockFreeList::dispList() {
 
-    LockFreeNode *curr = head;
-    if (curr == NULL) {
+    LockFreeNode *curr = head->getNext();
+    if (curr == tail) {
         cout << " LIST EMPTY";
         return;
     }
-    while (curr != NULL) {
+    cout << " HEAD";
+    while (curr != tail) {
         cout << " --> (" << curr->key << ", " << curr->value << ")" ; 
         curr = curr->getNext();
     }
+    cout << " --> TAIL" << endl;
 }
 
 
