@@ -2,21 +2,10 @@
 
 using namespace std;
 
-Node::Node(int key) {
+Node::Node(int key, int value) {
 	this->key = key;
+	this->value = value;
 	this->next = NULL;
-}
-
-int Node::getKey() {
-	return this->key;
-}
-
-Node * Node::getNext() {
-	return this->next;
-}
-
-void Node::setNext(Node *next) {
-	this->next = next;
 }
 
 List::List() {
@@ -28,15 +17,15 @@ List::~List() {
 
 	while (curr != NULL) {
 		Node *tmp = curr;
-		curr = curr->getNext();
+		curr = curr->next;
 		delete tmp;
 	}
 }
 
-void List::insertNode(int key) {
+void List::insertNode(int key, int value) {
 
-	Node *newNode = new Node(key);
-	newNode->setNext(head);
+	Node *newNode = new Node(key, value);
+	newNode->next = head;
 	head = newNode;
 }
 
@@ -45,17 +34,17 @@ void List::deleteNode(int key) {
 	Node *prev = NULL;
 	Node *curr = head;
 
-	while (curr != NULL && curr->getKey() != key) {
+	while (curr != NULL && curr->key != key) {
 		prev = curr;
-		curr = curr->getNext();
+		curr = curr->next;
 	}
 
 	if (curr != NULL) {
 		if (prev != NULL) {
-			prev->setNext(curr->getNext());
+			prev->next = curr->next;
 		}
 		else {
-			head = curr->getNext();
+			head = curr->next;
 		}
 		delete curr;
 	}
@@ -65,8 +54,8 @@ Node *List::findNode(int key) {
 
 	Node *curr = head;
 
-	while (curr != NULL && curr->getKey() != key) {
-		curr = curr->getNext();
+	while (curr != NULL && curr->key != key) {
+		curr = curr->next;
 	}
 
 	return curr;
@@ -77,7 +66,7 @@ void List::dispList() {
 
 	Node *curr = head;
 	while (curr != NULL) {
-		cout << " --> " << curr->getKey(); 
-		curr = curr->getNext();
+		cout << " --> " << curr->key; 
+		curr = curr->next;
 	}
 }

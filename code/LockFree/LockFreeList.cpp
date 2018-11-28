@@ -1,5 +1,5 @@
 #include "LockFreeList.h"
-
+#include <limits.h>
 using namespace std;
 
 LockFreeNode::LockFreeNode(int key, int value) {
@@ -17,7 +17,7 @@ bool extractFlag(LockFreeNode *node) {
 }
 
 static inline LockFreeNode *extractNext(LockFreeNode *node) {
-    return (LockFreeNode *)((unsigned long)node & (~((unsigned long)3)));
+    return (LockFreeNode *)((unsigned long)node & ~(unsigned long)3);
 }
 
 bool LockFreeNode::getMark() {
@@ -37,7 +37,10 @@ LockFreeNode *packSucc(LockFreeNode *node, bool mark, bool flag) {
 }
 
 LockFreeList::LockFreeList() {
-    this->head = NULL;
+    this->head = new LockFreeNode(INT_MIN, 0);
+    this->tail = new LockFreeNode(INT_MAX, 0);
+    head->succ = packSucc(this->tail, 0, 0);
+    tail->succ = packSucc(NULL, 0, 0);
 }
 
 LockFreeList::~LockFreeList() {
@@ -50,10 +53,10 @@ LockFreeList::~LockFreeList() {
     }
 }
 
-LockFreeNode *LockFreeList::searchNode(int key) {
+LockFreeNode *LockFreeList::findNode(int key) {
     node_pair_t nodePair = searchFrom(key, head);
     LockFreeNode *currNode = nodePair.first;
-    if(currNode->key == key) {
+    if (currNode->key == key) {
         return currNode;
     }
     else {
@@ -130,7 +133,6 @@ void LockFreeList::tryMark(LockFreeNode *delNode) {
 
 node_bool_pair_t LockFreeList::tryFlag(LockFreeNode *prevNode, LockFreeNode *targetNode) {
     while (true) {
-
         if (prevNode->succ == packSucc(targetNode, 0, 1)) {
             return make_pair(prevNode, false);
         }
@@ -149,6 +151,7 @@ node_bool_pair_t LockFreeList::tryFlag(LockFreeNode *prevNode, LockFreeNode *tar
             prevNode = prevNode->backLink;
         }
         node_pair_t nodePair = searchFrom(targetNode->key - 0.1, prevNode);
+        prevNode = nodePair.first;
         LockFreeNode *delNode = nodePair.second;
         if (delNode != targetNode) {
             return make_pair((LockFreeNode *)NULL, false);
@@ -191,6 +194,8 @@ LockFreeNode *LockFreeList::insertNode(int key, int value) {
             }
         }
         nodePair = searchFrom(key, prevNode);
+        prevNode = nodePair.first;
+        nextNode = nodePair.second;
         if (prevNode->key == key) {
             delete newNode;
             /* modify to replace value if key is duplicate. returning NULL for now */
@@ -201,18 +206,21 @@ LockFreeNode *LockFreeList::insertNode(int key, int value) {
 
 void LockFreeList::dispList() {
 
-    LockFreeNode *curr = head;
-    if (curr == NULL) {
+    LockFreeNode *curr = head->getNext();
+    if (curr == tail) {
         cout << " LIST EMPTY";
         return;
     }
-    while (curr != NULL) {
+    cout << " HEAD";
+    while (curr != tail) {
         cout << " --> (" << curr->key << ", " << curr->value << ")" ; 
         curr = curr->getNext();
     }
+    cout << " --> TAIL" << endl;
 }
 
 
 /* Things to do:-
  * 1. modify logic in insertNode for duplicate key
  */
+
