@@ -18,7 +18,7 @@ public:
     void deleteItem(int key); 
 
     // finds a (key, value) pair in hash table
-    LockFreeNode *findItem(int key);
+    bool findItem(int key);
   
     // hash function to map values to key 
     int hashFunction(int key) { 

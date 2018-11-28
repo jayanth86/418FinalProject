@@ -3,14 +3,16 @@ using namespace std;
 
 class FineHashTable 
 { 
-    int BUCKET;    // No. of buckets 
+    int NUM_BUCKETS;    // No. of buckets 
   
     // Pointer to an array containing buckets 
     FineList *table;
 public: 
-    FineHashTable(int V);  // Constructor 
+    FineHashTable(int NUM_BUCKETS);
+
+    ~FineHashTable();
     // inserts a key into hash table 
-    void insertItem(int x); 
+    void insertItem(int key, int value); 
     
     // deletes a key from hash table 
     void deleteItem(int key); 
@@ -20,7 +22,7 @@ public:
   
     // hash function to map values to key 
     int hashFunction(int x) { 
-        return (x % BUCKET); 
+        return (x % NUM_BUCKETS); 
     } 
   
     void displayHash(); 

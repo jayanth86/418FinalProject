@@ -3,25 +3,24 @@
 using namespace std;
 
 class FineNode {
-	private:
-		int key;
-		FineNode *next;
 	public:
-		FineNode(int key);
+		int key;
+		int value;
+		FineNode *next;
+		FineNode(int key, int value);
 		int getKey();
 		FineNode *getNext();
 		void setNext(FineNode *next);
 };
 
 class FineList {
-	private:
-		FineNode *head;
 	public:
+		FineNode *head;
 		mutable mutex m;
 		FineList();
 		~FineList();
-		void insertNode(int key);
+		void insertNode(int key, int value);
 		void deleteNode(int key);
-		bool findNode(int key);
+		FineNode * findNode(int key);
 		void dispList();
 };

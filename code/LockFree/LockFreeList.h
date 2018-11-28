@@ -31,7 +31,7 @@ class LockFreeList {
 		~LockFreeList();
 		LockFreeNode *insertNode(int key, int value);
 		LockFreeNode *deleteNode(int key);
-		LockFreeNode *searchNode(int key);
+		LockFreeNode *findNode(int key);
 		node_pair_t searchFrom(float key, LockFreeNode *currNode);
 		void helpMarked(LockFreeNode *prevNode, LockFreeNode *delNode);
 		void helpFlagged(LockFreeNode *prevNode, LockFreeNode *delNode);

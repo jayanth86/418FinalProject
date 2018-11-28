@@ -17,7 +17,7 @@ bool extractFlag(LockFreeNode *node) {
 }
 
 static inline LockFreeNode *extractNext(LockFreeNode *node) {
-    return (LockFreeNode *)((unsigned long)node & ~3);
+    return (LockFreeNode *)((unsigned long)node & ~(unsigned long)3);
 }
 
 bool LockFreeNode::getMark() {
@@ -53,10 +53,10 @@ LockFreeList::~LockFreeList() {
     }
 }
 
-LockFreeNode *LockFreeList::searchNode(int key) {
+LockFreeNode *LockFreeList::findNode(int key) {
     node_pair_t nodePair = searchFrom(key, head);
     LockFreeNode *currNode = nodePair.first;
-    if(currNode->key == key) {
+    if (currNode->key == key) {
         return currNode;
     }
     else {
@@ -133,7 +133,6 @@ void LockFreeList::tryMark(LockFreeNode *delNode) {
 
 node_bool_pair_t LockFreeList::tryFlag(LockFreeNode *prevNode, LockFreeNode *targetNode) {
     while (true) {
-
         if (prevNode->succ == packSucc(targetNode, 0, 1)) {
             return make_pair(prevNode, false);
         }
@@ -152,6 +151,7 @@ node_bool_pair_t LockFreeList::tryFlag(LockFreeNode *prevNode, LockFreeNode *tar
             prevNode = prevNode->backLink;
         }
         node_pair_t nodePair = searchFrom(targetNode->key - 0.1, prevNode);
+        prevNode = nodePair.first;
         LockFreeNode *delNode = nodePair.second;
         if (delNode != targetNode) {
             return make_pair((LockFreeNode *)NULL, false);
@@ -194,6 +194,8 @@ LockFreeNode *LockFreeList::insertNode(int key, int value) {
             }
         }
         nodePair = searchFrom(key, prevNode);
+        prevNode = nodePair.first;
+        nextNode = nodePair.second;
         if (prevNode->key == key) {
             delete newNode;
             /* modify to replace value if key is duplicate. returning NULL for now */
@@ -221,3 +223,4 @@ void LockFreeList::dispList() {
 /* Things to do:-
  * 1. modify logic in insertNode for duplicate key
  */
+

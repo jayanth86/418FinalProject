@@ -9,22 +9,20 @@ LockFreeHashTable::LockFreeHashTable(int NUM_BUCKETS)
 }
 
 LockFreeHashTable::~LockFreeHashTable() {
-    for (int i = 0; i < NUM_BUCKETS; i++) {
-        delete &table[i];
-    }
-    delete table;
+    delete [] table;
 }
   
 void LockFreeHashTable::insertItem(int key, int value)
 { 
     int index = hashFunction(key);
+    /* Need to handle 'key already in list' case */
     table[index].insertNode(key, value);
 } 
 
-LockFreeNode *LockFreeHashTable::findItem(int key)
+bool LockFreeHashTable::findItem(int key)
 {
     int index = hashFunction(key);
-    return table[index].searchNode(key);
+    return (table[index].findNode(key) != NULL);
 }
 
 void LockFreeHashTable::deleteItem(int key) 

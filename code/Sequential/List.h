@@ -1,14 +1,11 @@
 #include <iostream>
 
 class Node {
-	private:
-		int key;
-		Node *next;
 	public:
-		Node(int key);
-		int getKey();
-		Node *getNext();
-		void setNext(Node *next);
+		int key;
+		int value;
+		Node *next;
+		Node(int key, int value);
 };
 
 class List {
@@ -17,7 +14,7 @@ class List {
 	public:
 		List();
 		~List();
-		void insertNode(int key);
+		void insertNode(int key, int value);
 		void deleteNode(int key);
 		Node *findNode(int key);
 		void dispList();
