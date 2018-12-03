@@ -11,7 +11,7 @@ STMHashTable::STMHashTable(int b)
 void STMHashTable::insertItem(int key) 
 { 
     int index = hashFunction(key);
-    int result = _xbegin();
+    unsigned result = _xbegin();
     if(result == _XBEGIN_STARTED) {
         if(table[index].lockingFlag) {
            _xabort(0xff);
@@ -34,7 +34,7 @@ bool STMHashTable::findItem(int key)
 {
     int index = hashFunction(key); 
     bool retval;
-    int result = _xbegin();
+    unsigned result = _xbegin();
     if(result == _XBEGIN_STARTED) {
         if(table[index].lockingFlag) {
             _xabort(0xff);
@@ -56,7 +56,7 @@ void STMHashTable::deleteItem(int key)
 { 
     // get the hash index of key 
     int index = hashFunction(key); 
-    int result = _xbegin();
+    unsigned result = _xbegin();
     if(result ==  _XBEGIN_STARTED) {
         if(table[index].lockingFlag) {
             _xabort(0xff);
@@ -75,8 +75,8 @@ void STMHashTable::deleteItem(int key)
   
 // function to display hash table 
 void STMHashTable::displayHash() { 
-    for (int index = 0; i < BUCKET; i++) { 
-        cout << i;
+    for (int index = 0; index < BUCKET; index++) { 
+        cout << index;
         (table[index].m).lock();
         table[index].lockingFlag = true;
         table[index].dispList();

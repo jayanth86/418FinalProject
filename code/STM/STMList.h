@@ -18,7 +18,7 @@ class STMList {
 		STMNode *head;
 	public:
 		mutable mutex m;
-		atomic<bool> lockingFlag;
+		bool lockingFlag;
 		STMList();
 		~STMList();
 		void insertNode(int key);
