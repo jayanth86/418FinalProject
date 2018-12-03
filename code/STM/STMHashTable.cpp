@@ -11,32 +11,43 @@ STMHashTable::STMHashTable(int b)
 void STMHashTable::insertItem(int key) 
 { 
     int index = hashFunction(key);
-    bool tm_flag = false;
-    __transaction_atomic {
+    int result = _xbegin();
+    if(result == SUCCESS) {
+        if(table[index].lockingFlag) {
+           _xabort(0xff);
+        }
         if(!table[index].findNode(key))
             table[index].insertNode(key);
-
-        if(table[index].findNode(key)) {
-            tm_flag = true;
-        }
-        else {
-            __transaction_cancel;
-        }
+        _xend();
     }
-    if (!tm_flag) {
+    else {
         (table[index].m).lock();
+        table[index].lockingFlag = true;
         if(!table[index].findNode(key))
             table[index].insertNode(key);  
+        table[index].lockingFlag = false;
         (table[index].m).unlock();
-    } 
+    }
 } 
 
 bool STMHashTable::findItem(int key)
 {
     int index = hashFunction(key); 
     bool retval;
-    __transaction_atomic {
+    int result = _xbegin();
+    if(result == SUCCESS) {
+        if(table[index].lockingFlag) {
+            _xabort(0xff);
+        }
         retval = table[index].findNode(key);
+        _xend();
+    }
+    else {
+        (table[index].m).lock();
+        table[index].lockingFlag = true;
+        retval = table[index].findNode(key);
+        table[index].lockingFlag = false;
+        (table[index].m).unlock();
     }
     return retval;
 }
@@ -45,18 +56,32 @@ void STMHashTable::deleteItem(int key)
 { 
     // get the hash index of key 
     int index = hashFunction(key); 
-    __transaction_atomic {
+    int result = _xbegin();
+    if(result ==  _XBEGIN_STARTED) {
+        if(table[index].lockingFlag) {
+            _xabort(0xff);
+        }
         table[index].deleteNode(key);
+        _xend();
+    }
+    else {
+        (table[index].m).lock();
+        table[index].lockingFlag = true;
+        table[index].deleteNode(key);
+        table[index].lockingFlag = false;
+        (table[index].m).unlock();
     }
 } 
   
 // function to display hash table 
 void STMHashTable::displayHash() { 
-    for (int i = 0; i < BUCKET; i++) { 
+    for (int index = 0; i < BUCKET; i++) { 
         cout << i;
-        __transaction_atomic {
-            table[i].dispList();
-        }
+        (table[index].m).lock();
+        table[index].lockingFlag = true;
+        table[index].dispList();
+        table[index].lockingFlag = false;
+        (table[index].m).unlock();
         cout << endl; 
     } 
 }

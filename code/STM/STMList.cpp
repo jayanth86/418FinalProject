@@ -21,6 +21,7 @@ void STMNode::setNext(STMNode *next) {
 
 STMList::STMList() {
 	this->head = NULL;
+	this->lockingFlag = false;
 }
 
 STMList::~STMList() {

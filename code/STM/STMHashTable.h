@@ -1,4 +1,5 @@
 #include "STMList.h"
+#include "immintrin.h"
 using namespace std;
 
 class STMHashTable 
