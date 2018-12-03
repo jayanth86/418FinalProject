@@ -43,3 +43,9 @@ int main()
   
   return 0; 
 }
+
+/* Experiments:-
+ * 1. Variation of load factor
+ * 2. Variation of number of threads
+ * 3. Variation of ops ratio
+ */
