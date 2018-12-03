@@ -12,7 +12,7 @@ void STMHashTable::insertItem(int key)
 { 
     int index = hashFunction(key);
     int result = _xbegin();
-    if(result == SUCCESS) {
+    if(result == _XBEGIN_STARTED) {
         if(table[index].lockingFlag) {
            _xabort(0xff);
         }
@@ -35,7 +35,7 @@ bool STMHashTable::findItem(int key)
     int index = hashFunction(key); 
     bool retval;
     int result = _xbegin();
-    if(result == SUCCESS) {
+    if(result == _XBEGIN_STARTED) {
         if(table[index].lockingFlag) {
             _xabort(0xff);
         }
