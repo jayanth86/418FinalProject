@@ -1,6 +1,7 @@
 #include "Sequential/HashTable.h"
 #include "FineGrained/FineHashTable.h"
 #include "LockFree/LockFreeHashTable.h"
+#include "STM/STMHashTable.h"
 #include <cassert>
 #include <pthread.h>
 #define THREAD_COUNT 4
@@ -8,6 +9,7 @@
 #define ITER_COUNT 10000
 FineHashTable f_h(BUCKET_COUNT);
 LockFreeHashTable lf_h(BUCKET_COUNT);
+STMHashTable rtm_h(BUCKET_COUNT);
 
 // Checks if the hash table has the values it should at any given point
 void *checkConsistency(void *threadNumber) {
@@ -17,13 +19,15 @@ void *checkConsistency(void *threadNumber) {
         lf_h.insertItem(index, 0);
         bool f_result = f_h.findItem(index);
         bool lf_result = lf_h.findItem(index);
-        assert(f_result && lf_result);
+        bool rtm_result = lf_h.findItem(index);
+        assert(f_result && lf_result && rtm_result);
     }
     
     for(int32_t index = threadNum; index < ITER_COUNT; index+=THREAD_COUNT) {
         f_h.deleteItem(index);
         lf_h.deleteItem(index);
-        assert(!f_h.findItem(index) && !lf_h.findItem(index));
+        rtm_h.deleteItem(index);
+        assert(!f_h.findItem(index) && !lf_h.findItem(index) && !rtm_h.findItem(index));
     }
 
     return nullptr;
