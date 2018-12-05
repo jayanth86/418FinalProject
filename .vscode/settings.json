@@ -21,6 +21,7 @@
         "typeinfo": "cpp",
         "__mutex_base": "cpp",
         "shared_mutex": "cpp",
-        "atomic": "cpp"
+        "atomic": "cpp",
+        "iostream": "cpp"
     }
 }

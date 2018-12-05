@@ -42,10 +42,9 @@ int main()
     threadNum[i] = i;
     pthread_create(&threads[i], NULL, checkConsistency, (void *)&(threadNum[i]));
   }
-  cout << "Hash Table behaves as it should.\n";
   for(int i = 0; i < THREAD_COUNT; i++)
     pthread_join(threads[i], NULL);
-  
+  cout << "Hash Table behaves as it should.\n";
   return 0; 
 }
 
