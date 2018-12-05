@@ -17,10 +17,10 @@ void *checkConsistency(void *threadNumber) {
     for(int32_t index = threadNum; index < ITER_COUNT; index+=THREAD_COUNT) {
         f_h.insertItem(index, 0);
         lf_h.insertItem(index, 0);
-        rtm_h.insertItem(index, 1);
+        rtm_h.insertItem(index, 0);
         bool f_result = (f_h.findItem(index) && *(f_h.findItem(index)) == 0);
         bool lf_result = lf_h.findItem(index);
-        bool rtm_result = (rtm_h.findItem(index) && *(rtm_h.findItem(index)) == 1);
+        bool rtm_result = (rtm_h.findItem(index) && *(rtm_h.findItem(index)) == 0);
         assert(f_result && lf_result && rtm_result);
     }
     
