@@ -20,7 +20,7 @@ void *checkConsistency(void *threadNumber) {
         rtm_h.insertItem(index);
         bool f_result = f_h.findItem(index);
         bool lf_result = lf_h.findItem(index);
-        bool rtm_result = lf_h.findItem(index);
+        bool rtm_result = rtm_h.findItem(index);
         assert(f_result && lf_result && rtm_result);
     }
     
