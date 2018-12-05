@@ -2,8 +2,9 @@
 
 using namespace std;
 
-STMNode::STMNode(int key) {
+STMNode::STMNode(int key, int val) {
 	this->key = key;
+	this->val = val;
 	this->next = NULL;
 }
 
@@ -11,12 +12,20 @@ int STMNode::getKey() {
 	return this->key;
 }
 
-STMNode * STMNode::getNext() {
+int STMNode::getVal() {
+	return this->val;
+}
+
+STMNode *STMNode::getNext() {
 	return this->next;
 }
 
 void STMNode::setNext(STMNode *next) {
 	this->next = next;
+}
+
+void STMNode::setVal(int val) {
+	this->val = val;
 }
 
 STMList::STMList() {
@@ -34,8 +43,8 @@ STMList::~STMList() {
 	}
 }
 
-void STMList::insertNode(int key) {
-	STMNode *newNode = new STMNode(key);
+void STMList::insertNode(int key, int val) {
+	STMNode *newNode = new STMNode(key, val);
 	newNode->setNext(head);
 	head = newNode;
 }
@@ -61,12 +70,12 @@ void STMList::deleteNode(int key) {
 	}
 }
 
-bool STMList::findNode(int key) {
+STMNode *STMList::findNode(int key) {
 	STMNode *curr = head;
 	while (curr != nullptr && curr->getKey() != key) {
 		curr = curr->getNext();
 	}
-	return curr != nullptr;
+	return curr;
 }
 
 

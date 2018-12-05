@@ -49,7 +49,7 @@ void FineList::deleteNode(int key) {
 	}
 }
 
-FineNode * FineList::findNode(int key) {
+FineNode *FineList::findNode(int key) {
 	FineNode *curr = head;
 	while (curr != nullptr && curr->key != key) {
 		curr = curr->next;

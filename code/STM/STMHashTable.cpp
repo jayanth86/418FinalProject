@@ -8,48 +8,56 @@ STMHashTable::STMHashTable(int b)
     table = new STMList[BUCKET]; 
 } 
   
-void STMHashTable::insertItem(int key) 
+void STMHashTable::insertItem(int key, int val) 
 { 
     int index = hashFunction(key);
     unsigned result = _xbegin();
+    STMNode *nd;
     if(result == _XBEGIN_STARTED) {
         if(table[index].lockingFlag) {
            _xabort(0xff);
         }
-        if(!table[index].findNode(key))
-            table[index].insertNode(key);
+        if((nd = table[index].findNode(key)) == nullptr)
+            table[index].insertNode(key, val);
+        else 
+            nd->setVal(val);
         _xend();
     }
     else {
         (table[index].m).lock();
         table[index].lockingFlag = true;
-        if(!table[index].findNode(key))
-            table[index].insertNode(key);  
+        if((nd = table[index].findNode(key)) == nullptr)
+            table[index].insertNode(key, val); 
+        else 
+            nd->setVal(val);
         table[index].lockingFlag = false;
         (table[index].m).unlock();
     }
 } 
 
-bool STMHashTable::findItem(int key)
+int *STMHashTable::findItem(int key)
 {
     int index = hashFunction(key); 
-    bool retval;
+    STMNode *retNode;
     unsigned result = _xbegin();
     if(result == _XBEGIN_STARTED) {
         if(table[index].lockingFlag) {
             _xabort(0xff);
         }
-        retval = table[index].findNode(key);
+        retNode = table[index].findNode(key);
         _xend();
     }
     else {
         (table[index].m).lock();
         table[index].lockingFlag = true;
-        retval = table[index].findNode(key);
+        retNode = table[index].findNode(key);
         table[index].lockingFlag = false;
         (table[index].m).unlock();
     }
-    return retval;
+    int *retVal = nullptr;
+    if(retNode != nullptr) 
+        retVal = &(retNode->val);
+    return retVal;
 }
 
 void STMHashTable::deleteItem(int key) 

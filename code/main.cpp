@@ -17,10 +17,10 @@ void *checkConsistency(void *threadNumber) {
     for(int32_t index = threadNum; index < ITER_COUNT; index+=THREAD_COUNT) {
         f_h.insertItem(index, 0);
         lf_h.insertItem(index, 0);
-        rtm_h.insertItem(index);
-        bool f_result = f_h.findItem(index);
+        rtm_h.insertItem(index, 1);
+        bool f_result = (f_h.findItem(index) && *(f_h.findItem(index)) == 0);
         bool lf_result = lf_h.findItem(index);
-        bool rtm_result = rtm_h.findItem(index);
+        bool rtm_result = (rtm_h.findItem(index) && *(rtm_h.findItem(index)) == 1);
         assert(f_result && lf_result && rtm_result);
     }
     
@@ -34,7 +34,7 @@ void *checkConsistency(void *threadNumber) {
     return nullptr;
 }
 
-int main() 
+int main(int argc, char *argv[]) 
 { 
   pthread_t threads[THREAD_COUNT];
   uint32_t threadNum[THREAD_COUNT];
