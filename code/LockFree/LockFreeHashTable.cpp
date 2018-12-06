@@ -19,10 +19,15 @@ void LockFreeHashTable::insertItem(int key, int value)
     table[index].insertNode(key, value);
 } 
 
-bool LockFreeHashTable::findItem(int key)
+int * LockFreeHashTable::findItem(int key)
 {
     int index = hashFunction(key);
-    return (table[index].findNode(key) != NULL);
+    LockFreeNode *retNode = table[index].findNode(key);
+    int *retVal = NULL;
+    if (retNode != NULL) {
+        retVal = &(retNode->value);
+    }
+    return retVal;
 }
 
 void LockFreeHashTable::deleteItem(int key) 
