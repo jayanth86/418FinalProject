@@ -26,7 +26,7 @@ void STMHashTable::insertItem(int key)
         if(!table[index].findNode(key))
             table[index].insertNode(key);  
         table[index].lockingFlag = false;
-        (table[index].m).unlock();
+        (+taBUCKETSble[index].m).unlock();
     }
 } 
 
