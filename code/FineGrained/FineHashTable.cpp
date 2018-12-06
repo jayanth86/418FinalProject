@@ -24,13 +24,17 @@ void FineHashTable::insertItem(int key, int value)
     (table[index].m).unlock();
 } 
 
-bool FineHashTable::findItem(int key)
-{
+int *FineHashTable::findItem(int key)
+{   
+    
     int index = hashFunction(key); 
     (table[index].m).lock();
-    bool retval = table[index].findNode(key) != NULL;
+    FineNode *retNode = table[index].findNode(key);
     (table[index].m).unlock();
-    return retval;
+    int *retVal = nullptr;
+    if(retNode != nullptr)
+        retVal = &(retNode->value);
+    return retVal;
 }
 
 void FineHashTable::deleteItem(int key) 

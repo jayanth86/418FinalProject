@@ -17,9 +17,10 @@ void *checkConsistency(void *threadNumber) {
     for(int32_t index = threadNum; index < ITER_COUNT; index+=THREAD_COUNT) {
         f_h.insertItem(index, 0);
         lf_h.insertItem(index, 0);
-        bool f_result = f_h.findItem(index);
+        rtm_h.insertItem(index, 0);
+        bool f_result = (f_h.findItem(index) && *(f_h.findItem(index)) == 0);
         bool lf_result = lf_h.findItem(index);
-        bool rtm_result = lf_h.findItem(index);
+        bool rtm_result = (rtm_h.findItem(index) && *(rtm_h.findItem(index)) == 0);
         assert(f_result && lf_result && rtm_result);
     }
     
@@ -33,7 +34,7 @@ void *checkConsistency(void *threadNumber) {
     return nullptr;
 }
 
-int main() 
+int main(int argc, char *argv[]) 
 { 
   pthread_t threads[THREAD_COUNT];
   uint32_t threadNum[THREAD_COUNT];
@@ -41,10 +42,9 @@ int main()
     threadNum[i] = i;
     pthread_create(&threads[i], NULL, checkConsistency, (void *)&(threadNum[i]));
   }
-  cout << "Hash Table behaves as it should.\n";
   for(int i = 0; i < THREAD_COUNT; i++)
     pthread_join(threads[i], NULL);
-  
+  cout << "Hash Table behaves as it should.\n";
   return 0; 
 }
 

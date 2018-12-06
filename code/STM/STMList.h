@@ -1,14 +1,17 @@
 #include <iostream>
 #include <mutex>
+#include <atomic>
 using namespace std;
 
 class STMNode {
-	private:
-		int key;
-		STMNode *next;
 	public:
-		STMNode(int key);
+		int key;
+		int val;
+		STMNode *next;
+		STMNode(int key, int val);
 		int getKey();
+		int getVal();
+		void setVal(int val);
 		STMNode *getNext();
 		void setNext(STMNode *next);
 };
@@ -18,11 +21,11 @@ class STMList {
 		STMNode *head;
 	public:
 		mutable mutex m;
-		bool lockingFlag;
+		atomic<bool> lockingFlag;
 		STMList();
 		~STMList();
-		void insertNode(int key);
+		void insertNode(int key, int val);
 		void deleteNode(int key);
-		bool findNode(int key);
+		STMNode *findNode(int key);
 		void dispList();
 };
