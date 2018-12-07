@@ -18,7 +18,7 @@ public:
     void deleteItem(int key); 
 
     // finds a (key, value) pair in hash table
-    bool findItem(int key);
+    int *findItem(int key);
   
     // hash function to map values to key 
     int hashFunction(int key) { 

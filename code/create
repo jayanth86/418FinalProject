@@ -1,1 +1,1 @@
-g++-8 -mrtm -g -pthread -std=c++17 main.cpp STM/STMHashTable.cpp STM/STMList.cpp LockFree/LockFreeHashTable.cpp LockFree/LockFreeList.cpp FineGrained/FineHashTable.cpp FineGrained/FineList.cpp Sequential/HashTable.cpp Sequential/List.cpp -o hash -Wall -Werror -O3
+g++ -mrtm -g -pthread -std=c++17 main.cpp STM/STMHashTable.cpp STM/STMList.cpp LockFree/LockFreeHashTable.cpp LockFree/LockFreeList.cpp FineGrained/FineHashTable.cpp FineGrained/FineList.cpp Sequential/HashTable.cpp Sequential/List.cpp -o hash -Wall -Werror -O3

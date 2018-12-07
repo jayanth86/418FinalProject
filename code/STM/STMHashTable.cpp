@@ -31,7 +31,7 @@ void STMHashTable::insertItem(int key, int val)
         else 
             nd->setVal(val);
         table[index].lockingFlag = false;
-        (+taBUCKETSble[index].m).unlock();
+        (table[index].m).unlock();
     }
 } 
 
