@@ -3,29 +3,29 @@
 #include <atomic>
 using namespace std;
 
-class STMNode {
+class RTMNode {
 	public:
 		int key;
 		int val;
-		STMNode *next;
-		STMNode(int key, int val);
+		RTMNode *next;
+		RTMNode(int key, int val);
 		int getKey();
 		int getVal();
 		void setVal(int val);
-		STMNode *getNext();
-		void setNext(STMNode *next);
+		RTMNode *getNext();
+		void setNext(RTMNode *next);
 };
 
-class STMList {
+class RTMList {
 	private:
-		STMNode *head;
+		RTMNode *head;
 	public:
 		mutable mutex m;
 		atomic<bool> lockingFlag;
-		STMList();
-		~STMList();
+		RTMList();
+		~RTMList();
 		void insertNode(int key, int val);
 		void deleteNode(int key);
-		STMNode *findNode(int key);
+		RTMNode *findNode(int key);
 		void dispList();
 };

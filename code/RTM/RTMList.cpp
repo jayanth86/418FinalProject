@@ -1,58 +1,58 @@
-#include "STMList.h"
+#include "RTMList.h"
 
 using namespace std;
 
-STMNode::STMNode(int key, int val) {
+RTMNode::RTMNode(int key, int val) {
 	this->key = key;
 	this->val = val;
 	this->next = NULL;
 }
 
-int STMNode::getKey() {
+int RTMNode::getKey() {
 	return this->key;
 }
 
-int STMNode::getVal() {
+int RTMNode::getVal() {
 	return this->val;
 }
 
-STMNode *STMNode::getNext() {
+RTMNode *RTMNode::getNext() {
 	return this->next;
 }
 
-void STMNode::setNext(STMNode *next) {
+void RTMNode::setNext(RTMNode *next) {
 	this->next = next;
 }
 
-void STMNode::setVal(int val) {
+void RTMNode::setVal(int val) {
 	this->val = val;
 }
 
-STMList::STMList() {
+RTMList::RTMList() {
 	this->head = NULL;
 	this->lockingFlag = false;
 }
 
-STMList::~STMList() {
-	STMNode *curr = head;
+RTMList::~RTMList() {
+	RTMNode *curr = head;
 
 	while (curr != NULL) {
-		STMNode *tmp = curr;
+		RTMNode *tmp = curr;
 		curr = curr->getNext();
 		delete tmp;
 	}
 }
 
-void STMList::insertNode(int key, int val) {
-	STMNode *newNode = new STMNode(key, val);
+void RTMList::insertNode(int key, int val) {
+	RTMNode *newNode = new RTMNode(key, val);
 	newNode->setNext(head);
 	head = newNode;
 }
 
-void STMList::deleteNode(int key) {
+void RTMList::deleteNode(int key) {
 
-	STMNode *prev = NULL;
-	STMNode *curr = head;
+	RTMNode *prev = NULL;
+	RTMNode *curr = head;
 
 	while (curr != NULL && curr->getKey() != key) {
 		prev = curr;
@@ -70,8 +70,8 @@ void STMList::deleteNode(int key) {
 	}
 }
 
-STMNode *STMList::findNode(int key) {
-	STMNode *curr = head;
+RTMNode *RTMList::findNode(int key) {
+	RTMNode *curr = head;
 	while (curr != nullptr && curr->getKey() != key) {
 		curr = curr->getNext();
 	}
@@ -79,8 +79,8 @@ STMNode *STMList::findNode(int key) {
 }
 
 
-void STMList::dispList() {
-	STMNode *curr = head;
+void RTMList::dispList() {
+	RTMNode *curr = head;
 	while (curr != NULL) {
 		cout << " --> " << curr->getKey(); 
 		curr = curr->getNext();

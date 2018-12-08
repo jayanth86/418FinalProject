@@ -1,15 +1,15 @@
-#include "STMList.h"
+#include "RTMList.h"
 #include "immintrin.h"
 using namespace std;
 
-class STMHashTable 
+class RTMHashTable 
 { 
     int BUCKET;    // No. of buckets 
   
     // Pointer to an array containing buckets 
-    STMList *table;
+    RTMList *table;
 public: 
-    STMHashTable(int V);  // Constructor 
+    RTMHashTable(int V);  // Constructor 
     // inserts a key into hash table 
     void insertItem(int key, int val); 
     

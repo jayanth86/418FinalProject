@@ -1,18 +1,18 @@
-#include "STMHashTable.h"
+#include "RTMHashTable.h"
 
 using namespace std;
 
-STMHashTable::STMHashTable(int b) 
+RTMHashTable::RTMHashTable(int b) 
 { 
     this->BUCKET = b; 
-    table = new STMList[BUCKET]; 
+    table = new RTMList[BUCKET]; 
 } 
   
-void STMHashTable::insertItem(int key, int val) 
+void RTMHashTable::insertItem(int key, int val) 
 { 
     int index = hashFunction(key);
     unsigned result = _xbegin();
-    STMNode *nd;
+    RTMNode *nd;
     if(result == _XBEGIN_STARTED) {
         if(table[index].lockingFlag) {
            _xabort(0xff);
@@ -35,10 +35,10 @@ void STMHashTable::insertItem(int key, int val)
     }
 } 
 
-int *STMHashTable::findItem(int key)
+int *RTMHashTable::findItem(int key)
 {
     int index = hashFunction(key); 
-    STMNode *retNode;
+    RTMNode *retNode;
     unsigned result = _xbegin();
     if(result == _XBEGIN_STARTED) {
         if(table[index].lockingFlag) {
@@ -60,7 +60,7 @@ int *STMHashTable::findItem(int key)
     return retVal;
 }
 
-void STMHashTable::deleteItem(int key) 
+void RTMHashTable::deleteItem(int key) 
 { 
     // get the hash index of key 
     int index = hashFunction(key); 
@@ -82,7 +82,7 @@ void STMHashTable::deleteItem(int key)
 } 
   
 // function to display hash table 
-void STMHashTable::displayHash() { 
+void RTMHashTable::displayHash() { 
     for (int index = 0; index < BUCKET; index++) { 
         cout << index;
         (table[index].m).lock();

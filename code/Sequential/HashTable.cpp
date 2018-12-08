@@ -22,10 +22,15 @@ void HashTable::insertItem(int key, int value)
         node->value = value;
 } 
 
-bool HashTable::findItem(int key)
+int *HashTable::findItem(int key)
 {
     int index = hashFunction(key); 
-    return table[index].findNode(key) != NULL;
+    Node *retNode = table[index].findNode(key);
+    int *retVal = NULL;
+    if (retNode != NULL) {
+        retVal = &(retNode->value);
+    }
+    return retVal;
 }
 
 void HashTable::deleteItem(int key) 

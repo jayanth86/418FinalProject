@@ -1,10 +1,10 @@
-#include "FineGrained/FineHashTable.h"
+#include "FineHashTable.h"
 #include <cassert>
 #include <pthread.h>
 #include <queue>
 #include <cmath>
 #include <unistd.h>
-#include "CycleTimer.h"
+#include "../CycleTimer.h"
 
 int OPS = 1000000;
 float INSERT = 0.33;
@@ -13,7 +13,7 @@ float SEARCH = 0.34;
 int BUCKETS = 100;
 int LOAD = 5;
 int THREADS = 4;
-int KEY_RANGE = 2 * LOAD * BUCKETS;
+int KEY_RANGE;
 int DEBUG = 0;
 
 FineHashTable *hashTable;
@@ -21,13 +21,10 @@ FineHashTable *hashTable;
 // Checks if the hash table has the values it should at any given point
 void *checkConsistency(void *threadNumber) {
     int32_t threadNum = *((int32_t *)threadNumber);
-    cout << "Thread " << threadNum << " has started!" << endl;
     for(int32_t index = threadNum; index < OPS; index += THREADS) {
         hashTable->insertItem(index, 0);
         bool result = hashTable->findItem(index) != NULL;
         assert(result);
-        if (index % 100000 == 0)
-        cout << "Thread " << threadNum << " inserted " << index << " elements" << endl;
     }
     
     for(int32_t index = threadNum; index < OPS; index += THREADS) {
@@ -110,14 +107,13 @@ int main(int argc, char *argv[])
     }
   }
 
-  cout << OPS << endl;
-  cout << DEBUG << endl;
-
   if (DELETE > INSERT) {
     cerr << "Delete ratio should be less than or equal to insert ratio" << endl;
+    return 1;
   }
   SEARCH = 1 - INSERT - DELETE;
-  
+  KEY_RANGE = 2 * LOAD * BUCKETS;
+
   hashTable = new FineHashTable(BUCKETS);
 
   pthread_t threads[THREADS];
