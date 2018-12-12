@@ -1,6 +1,5 @@
 #include <iostream>
 #include <utility>
-#include <atomic>
 
 using namespace std;
 

@@ -1,4 +1,5 @@
 #include "List.h"
+#include <mutex>
 using namespace std;
 
 class HashTable 
@@ -7,6 +8,7 @@ class HashTable
   
     // Pointer to an array containing buckets 
     List *table;
+    mutable mutex m;
 public: 
     HashTable(int V);  // Constructor 
 

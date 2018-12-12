@@ -1,7 +1,7 @@
-g++ -pthread -std=c++17 Sequential/Perf.cpp Sequential/HashTable.cpp Sequential/List.cpp -o sequential -Wall -Werror -O3
+g++ -pthread -std=c++17 Sequential/Perf.cpp Sequential/HashTable.cpp Sequential/List.cpp -o seq -Wall -Werror -O3
 
 g++ -pthread -std=c++17 FineGrained/FinePerf.cpp FineGrained/FineHashTable.cpp FineGrained/FineList.cpp -o fine -Wall -Werror -O3
 
-g++ -pthread -std=c++17 LockFree/LockFreePerf.cpp LockFree/LockFreeHashTable.cpp LockFree/LockFreeList.cpp -o lockfree -Wall -Werror -O3
+g++ -pthread -std=c++17 LockFree/LockFreePerf.cpp LockFree/LockFreeHashTable.cpp LockFree/LockFreeList.cpp -o free -Wall -Werror -O3
 
-g++ -mrtm -pthread -std=c++17 RTM/RTMPerf.cpp RTM/RTMHashTable.cpp RTM/RTMList.cpp -o rtm -Wall -Werror -O3
+g++ -mrtm -pthread -std=c++17 RTM/RTMPerf.cpp RTM/RTMHashTable.cpp RTM/RTMList.cpp -o tm -Wall -Werror -O3
