@@ -1,3 +1,5 @@
+g++ -pthread -std=c++17 CoarseGrained/CoarsePerf.cpp CoarseGrained/CoarseHashTable.cpp CoarseGrained/CoarseList.cpp -o coarse -Wall -Werror -O3
+
 g++ -pthread -std=c++17 Sequential/Perf.cpp Sequential/HashTable.cpp Sequential/List.cpp -o sequential -Wall -Werror -O3
 
 g++ -pthread -std=c++17 FineGrained/FinePerf.cpp FineGrained/FineHashTable.cpp FineGrained/FineList.cpp -o fine -Wall -Werror -O3
