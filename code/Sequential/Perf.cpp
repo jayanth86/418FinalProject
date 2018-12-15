@@ -100,6 +100,9 @@ int main(int argc, char *argv[])
       case 'c':
         DEBUG = atoi(optarg);
         break;
+      case 't':
+        THREADS = atoi(optarg);
+        break;
       default:
         cerr << "Invalid argument " << optarg << endl;
     }
