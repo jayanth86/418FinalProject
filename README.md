@@ -20,39 +20,20 @@ Hash tables are one of the most important concurrent data structures and have nu
 
 There are no real dependencies in the program and the amount of parallelism in the program is up to the user, since we don’t limit the number of threads used. We don’t make use of SIMD in any way and it is also not data-parallel. Locality also doesn’t play a large role in our data structure since chaining is implemented with a linked list instead of an unbounded array. 
 
-
-
-## The Challenge:
-Depending on how many threads or processes are accessing this hash table, the nature of operations they are going to perform on it and the access patterns, we will have to take measures in our implementation that ensure data integrity without compromising on performance. Fine-grained locks and lockless data structures can cause subtle data races. There is also the potential to introduce deadlocks or livelocks if not careful. Even after these are overcome, there remains the possibility that the overhead incurred in overcoming these can offset the performance gains that we hope for by using lock-free data structures or fine-grained locks. Our code must also be efficient for varying workloads that may have different proportions of the above-mentioned operations. Additionally, our project considers the use of transactional memory for ease of synchronization without losing out much on performance. Since there are many variants of transactional memory implementations, we will look to examine what kind of access patterns have an adversarial effect on the variant we use in our project. 
-
-After some work on the project, memory reclamation seems to be extremely challenging and difficult to implement with a lock free model. Resizing the hash table may also prove to be extremely difficult and will require a lot of work on our end.
-
-
-## Resources
-We will be writing our code from scratch but using reference implementations found <a href="https://github.com/huxia1124/ParallelContainers">here</a> and <a href="https://github.com/ssteinberg">here</a> as guidance. In order to compare the performance of our code on different workloads we will use the results from the paper ‘High Performance Dynamic Lock-Free Hash Tables and List-Based Sets’ by Michael M. Maged as our benchmark. We will also need access to transactional memory capable machines.
-
-
-## Goals and Deliverables:
-We believe that a comprehensive study of fine-grained locks, lock-free implementation and transactional memory based implementation will make for a complete project requiring 6 weeks of coding and testing. If we do get ahead schedule, we will consider incorporating the ‘expand’ functionality in our hash table which we are presently not planning to add due to complications in getting it correct within the given time-constraints.
-
-In our final presentation, we hope to share visual representations of the comparative performance of the various implementations we have planned on different workloads and some insights we gained in the process. We will particularly look to assess the impact on performance when the ratio of read/write operations on the hash table is varied and also when the level of concurrency is stepped up.
-
-
 ## Platform:
-We will be using C++ to code this project as we wish to have control over the code at a lower level and due to better familiarity with concurrent programming in C++. We plan to use the GHC machines to implement this project as recommended in the lecture. 
+For the purposes of this project, we tested all our code on Microsoft Azure’s Standard_E2s_v3 machines for consistency and restricted transactional memory support. These machines feature 2.3 GHz Intel XEON ® E5-2673 v4 chips, with support for hyper-threading technology. We chose these machines specifically due to their easy availability and optimization for memory-based operations. 
 
+## Approach:
 
-## Updated Schedule:
+# Coarse-grained:
+This implementation of the hash table just has one giant lock over the entire hash table. This allows us to ensure correctness of the table itself, but leads to some serious performance issues, which we hope to solve with the other models. Our goal with this table was to set a baseline for how a concurrent hash table would perform, so that we could compare the remainder of our results to it.
 
-|      Week     |     Goal      |
-| ------------- | ------------- |
-| 19 Nov - 21 Nov  | Transactional memory - Jayanth, Siddharth  |
-| 22 Nov - 25 Nov  | Transactional memory - Jayanth Testing Suite - Siddharth  |
-| 26 Nov - 29 Nov  | If TM complete, incorporate memory reclamation (125%) and expand table functionality (150%), Testing - Jayanth, Siddharth |
-| 30 Nov - 3 Dec  | Performance testing - Jayanth, Siddharth  |
-| 3 Dec - 6 Dec  | Performance testing, Report - Jayanth, Siddharth |
-| 7 Dec - 10 Dec  | Report - Jayanth, Siddharth  |
-| 11 Dec - 14 Dec  | Buffer in case something goes wrong  |
+# Fine-grained:
+When two threads are vying for access to the hash table, it may be possible that they are going to modify different buckets in the hash table. This is more likely when there are more number of buckets in the table. In such cases, it does not make sense to have a giant lock over the entire hash table. Instead, we have a lock for each bucket thus eliminating unnecessary waiting time for threads that are operating on different buckets.  
+
+# Lock-free:
+Lock-free data structures offer various benefits. Firstly they are non-blocking, i.e. it is guaranteed that a finite number of steps taken by a thread ensures progress of some operation unlike using locks wherein if a thread acquires a lock over some shared resource then no other thread can make any progress. Additionally, if a thread that has the lock fails for some reason then this could potentially prevent the other threads waiting on the lock from making any progress. However, implementing lock-free data structures can be quite tricky and ensuring correctness is a major challenge. One of the common problems is the ABA problem that arises because of using compare and exchange operations  to check if next pointer of a node has not changed. Another problem is with the deletion operation. The successor of the node being deleted must not change while the delete is happening. This may happen for instance, while inserting a node after the node to be deleted. What happens is that the predecessor of the node to be deleted ends up pointing to a stale successor. In order to avoid this, Harris proposed a two-step  approach wherein they mark the node to be deleted in the first step. At this stage the node is said to be logically deleted and no other nodes can be inserted after this node. In the second step, they physically remove the node from the list. While this method works well, Fomitchev pointed out their implementation can be inefficient for the following reason. Suppose a node has to be inserted after node X. At the same time X has been marked for deletion. This means that the node cannot be inserted after X now. So in the implementation of Harris the algorithm would restart the search for a suitable position to insert the node from the start of the list. Fomitchev suggests that each node have an additional attribute called ‘backlink’ which will point to the predecessor of a node if the node is marked for deletion. By doing so, we do not have to restart the search from the start of the list every time. We can traverse the backlink pointers till we reach an unmarked node and resume search from there. But the pitfall here, as highlighted by Fomitchev is that we can end up repeatedly traversing chains of backlinks from left to right while finding a position to insert. In order to avoid this, they introduce an additional flag bit which ensures that long chains of backlinks do not form. How this works is that when a node is to be deleted the predecessor is first flagged. Flagging means that the next pointer of the flagged node cannot be changed and the node cannot be marked for deletion. Once flagging is successful, the node is marked and deleted as before in two steps. Because the predecessor cannot be marked for deletion, long chains of backlinks cannot form. In our implementation, we embed the flag and mark bits in the next pointer of the node and use simple bit masking to extract these bits. We are able to do this because the dynamic memory allocated to nodes is at least 4-byte aligned. Here is an illustration of the 3 step delete.
+
 
 <a href="418%20project%20proposal.pdf">View Proposal Here</a>
 
