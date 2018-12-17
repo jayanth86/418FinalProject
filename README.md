@@ -4,13 +4,20 @@ We implemented concurrent hash tables with multiple different implementations an
 
 ## Background
 The key data structure that we use here is a concurrent hash table with chaining for collisions. We don’t attempt to resize the hash table, since we were warned this approach would be too difficult to finish within the scope of our project. As previously mentioned, we have four implementations of concurrent hash tables here: coarse-grained locking, fine-grained locking, lockless, and transactional. Each implementation of the hash table must insert, delete, and find items.
+
 Function signatures:
+
 void HashTable::insertItem(int key, int value)
+
 int *HashTable::findItem(int key)
+
 void HashTable::deleteItem(int key)
+
 insertItem takes a key-value pair and inserts the mapping from the provided key to the provided value into the hash table. findItem takes an input key and returns the value mapped to the key. deleteItem takes an input key and removes the mapping associated with the key from the table if it exists. 
 Our performance testing algorithms take in inputs of number of operations, number of threads, range of keys mapped to each index/bucket, and the ratio of read to write operations. The output would be the time taken for the threads to perform all their operations and terminate. 
+
 Hash tables are one of the most important concurrent data structures and have numerous use cases. Since reading and writing to a concurrent hash table can take up the majority of the time in many of these use cases, we attempt to implement and compare different implementations of concurrent hash tables. We are not trying to speedup the usage of a general hash table, but are instead hoping to allow multiple threads to read and write to the same set of data using a key-value store. This, in turn, would allow hash tables to be used as shared memory space for various applications that want to use parallelism to speedup their work. 
+
 There are no real dependencies in the program and the amount of parallelism in the program is up to the user, since we don’t limit the number of threads used. We don’t make use of SIMD in any way and it is also not data-parallel. Locality also doesn’t play a large role in our data structure since chaining is implemented with a linked list instead of an unbounded array. 
 
 
