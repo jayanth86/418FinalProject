@@ -1,9 +1,18 @@
 ## Summary
-Our goal is to design a performant concurrent hash table using three different approaches, namely:- fine-grained locking, lock-free programming and transactional memory. Through this project we seek to understand the benefits and drawbacks of these approaches under various types of workloads. 
+We implemented concurrent hash tables with multiple different implementations and compared their performance while tweaking various factors. We implemented a fine-grained hash table, coarse-grained hash table, lockless hash table, and a transactional hash table for use with a restricted transactional memory system. We then compared the performance of each different table while altering the number of threads, range of keys, and ratio of read and write operations. We observed that the lockless implementation is the best, while the coarse-grained hash table performs the worst out of the four. The transactional implementation also outperformed the fine-grained hash table implementation. 
 
 
 ## Background
-Hash tables are data structures that enable constant-time access to their contents by mapping a set of keys in the universe to a fixed number of hash values. It is possible that many keys map to the same hash value and this results in what is called collision. The most common way to accommodate this is to maintain a list of keys for each hash value. Mapping functions are typically designed to minimize the number of collisions as, in the worst case, we can have can many elements mapping to the same hash value resulting in longer access times. There are three basic operations that can be performed on a hash table: add, remove, and get. While add and remove alter the hash table, get only reads the contents of the hash table. We have now described the basic structure and operations of the hash table that we are going to implement.
+The key data structure that we use here is a concurrent hash table with chaining for collisions. We don’t attempt to resize the hash table, since we were warned this approach would be too difficult to finish within the scope of our project. As previously mentioned, we have four implementations of concurrent hash tables here: coarse-grained locking, fine-grained locking, lockless, and transactional. Each implementation of the hash table must insert, delete, and find items.
+Function signatures:
+void HashTable::insertItem(int key, int value)
+int *HashTable::findItem(int key)
+void HashTable::deleteItem(int key)
+insertItem takes a key-value pair and inserts the mapping from the provided key to the provided value into the hash table. findItem takes an input key and returns the value mapped to the key. deleteItem takes an input key and removes the mapping associated with the key from the table if it exists. 
+Our performance testing algorithms take in inputs of number of operations, number of threads, range of keys mapped to each index/bucket, and the ratio of read to write operations. The output would be the time taken for the threads to perform all their operations and terminate. 
+Hash tables are one of the most important concurrent data structures and have numerous use cases. Since reading and writing to a concurrent hash table can take up the majority of the time in many of these use cases, we attempt to implement and compare different implementations of concurrent hash tables. We are not trying to speedup the usage of a general hash table, but are instead hoping to allow multiple threads to read and write to the same set of data using a key-value store. This, in turn, would allow hash tables to be used as shared memory space for various applications that want to use parallelism to speedup their work. 
+There are no real dependencies in the program and the amount of parallelism in the program is up to the user, since we don’t limit the number of threads used. We don’t make use of SIMD in any way and it is also not data-parallel. Locality also doesn’t play a large role in our data structure since chaining is implemented with a linked list instead of an unbounded array. 
+
 
 
 ## The Challenge:
@@ -43,3 +52,6 @@ We will be using C++ to code this project as we wish to have control over the co
 <a href="Final%20Project%20Checkpoint.pdf">View Checkpoint Here</a>
 
 <a href="Final%20Report.pdf">View Final Report Here</a>
+
+[[https://github.com/username/repository/blob/master/img/octocat.png|alt=octocat]]
+
