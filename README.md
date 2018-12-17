@@ -36,6 +36,8 @@ Lock-free data structures offer various benefits. Firstly they are non-blocking,
 
 Step 1:- Predecessor is flagged
 
+![alt text](figures/step1.png)
+
 Step 2:- Node to be deleted is marked. Logical delete is said to take place
 
 Step 3:- Node to be deleted is physically deleted. Predecessor is unflagged.
