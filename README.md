@@ -80,9 +80,9 @@ As we expected, the number of aborts significantly increases with the increase i
 ## Conclusion
 We can see from our project that fine-grained locking is not always better than having one big lock over the entire data structure, due to all the excess interconnect traffic generated. Similarly, restricted transactional memory definitely has a good amount of overhead with it. On the other hand, we found lock free data structures to be superior to the locked and transactional data structures, but definitely found that lock free data structures are much more difficult to implement.
 
-<a href="418%20project%20proposal.pdf">View Proposal Here</a>
+<a href="project%20proposal.pdf">View Proposal Here</a>
 
-<a href="Final%20Project%20Checkpoint.pdf">View Checkpoint Here</a>
+<a href="checkpoint%20report.pdf">View Checkpoint Here</a>
 
-<a href="Final%20Report.pdf">View Final Report Here</a>
+<a href="final%20report.pdf">View Final Report Here</a>
 
