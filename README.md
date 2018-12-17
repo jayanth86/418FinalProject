@@ -40,11 +40,11 @@ Step 1:- Predecessor is flagged
 
 Step 2:- Node to be deleted is marked. Logical delete is said to take place
 
-![alt text](figures/step1.png)
+![alt text](figures/step2.png)
 
 Step 3:- Node to be deleted is physically deleted. Predecessor is unflagged
 
-![alt text](figures/step1.png)
+![alt text](figures/step3.png)
 
 ### Transactional Memory
 We also explore the possibility using of hardware transactional memory to potentially improve the performance of our hash table while ensuring correctness. To this end, we make use of Intel’s Restricted Transactional Memory (RTM) software interface and in turn, the underlying Transactional Synchronization Extensions (TSX) instructions. This version of transactional memory employs a lazy data-versioning policy, i.e. the changes are made to actual memory locations when the transaction commits and an optimistic conflict detection policy, i.e. the read/write sets are checked for conflicts only at the time of committing the transaction. If a transaction aborts we use our fine-grained lock implementation as a fallback path. In this version of the concurrent hash table, it is important to ensure that the fallback and the transactional paths do not overlap. One of the hazards of not ensuring this is that it is possible that the transaction commit and a write operation in the fallback path occur simultaneously to a memory location which can cause erroneous values to be written. Another potential hazard could arise because the fallback path does not observe writes to a memory location till the transaction commits. Consider a case where two same keys are being inserted by two threads and one of the threads is using the fallback path and the other is using the transactional path. Since the fallback is not aware of the transactional path inserting the same key till the transaction commits, it may be possible that the same key gets inserted twice into our hash table, first by the transactional path and then by the fallback. Clearly, we do not want this in our hash table. We avoid the overlap of the two paths by setting a ‘lockingFlag’ just after acquiring the fine-grained mutex lock in our fallback path. On the other hand, we check if the ‘lockingFlag’ has been set at the start of the transactional section. If it has, we explicitly abort the transaction. But if the ‘lockingFlag’ gets set after this check, the transaction will abort anyway because its readset has been modified. This effectively prevents the overlap of the transactional and fallback paths.
